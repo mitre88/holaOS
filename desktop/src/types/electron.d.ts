@@ -1113,6 +1113,23 @@ interface RuntimeNotificationListOptionsPayload {
     blocking_apps: WorkspaceLifecycleBlockingAppPayload[];
   }
 
+  interface WorkspaceCardSummaryTaskCountsPayload {
+    running: number;
+    queued: number;
+    waiting_on_user: number;
+    failed: number;
+  }
+
+  interface WorkspaceCardSummaryPayload {
+    workspace_id: string;
+    lifecycle: "starting" | "ready" | "error";
+    task_counts: WorkspaceCardSummaryTaskCountsPayload;
+  }
+
+  interface WorkspaceCardSummariesResponsePayload {
+    summaries: WorkspaceCardSummaryPayload[];
+  }
+
   interface WorkspaceRuntimeSessionPayload {
     workspace_id: string;
     location: WorkspaceLocationPayload;
@@ -1663,6 +1680,9 @@ interface RuntimeNotificationListOptionsPayload {
       listWorkspaces: () => Promise<WorkspaceListResponsePayload>;
       listWorkspacesCached: () => Promise<WorkspaceListResponsePayload>;
       getWorkspaceLifecycle: (workspaceId: string) => Promise<WorkspaceLifecyclePayload>;
+      listWorkspaceCardSummaries: (
+        workspaceIds: string[]
+      ) => Promise<WorkspaceCardSummariesResponsePayload>;
       activateWorkspace: (workspaceId: string) => Promise<WorkspaceLifecyclePayload>;
       openWorkspace: (workspaceId: string) => Promise<WorkspaceOpenSessionPayload>;
       listInstalledApps: (workspaceId: string) => Promise<InstalledWorkspaceAppListResponsePayload>;
